@@ -1,0 +1,9 @@
+---
+
+- name: systemctl
+  systemd: name=baccli enabled=yes daemon_reload=yes
+
+- name: restart baccli
+  service: name=baccli state=restarted
+
+

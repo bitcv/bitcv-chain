@@ -1,0 +1,15 @@
+init_config:
+
+instances:
+- name: ssh
+  search_string: ['ssh', 'sshd']
+  thresholds:
+    critical: [1, 5]
+- name: bacd
+  search_string: ['bacd']
+  thresholds:
+    critical: [1, 1]
+- name: baccli
+  search_string: ['baccli']
+  thresholds:
+    critical: [1, 1]

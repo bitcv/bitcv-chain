@@ -1,0 +1,17 @@
+[Unit]
+Description=baccli
+Requires=network-online.target
+After=network-online.target
+
+[Service]
+Restart=on-failure
+User=bacd
+Group=bacd
+PermissionsStartOnly=true
+ExecStart=/usr/bin/baccli rest-server --laddr {{GAIACLI_ADDRESS}}
+ExecReload=/bin/kill -HUP $MAINPID
+KillSignal=SIGTERM
+
+[Install]
+WantedBy=multi-user.target
+

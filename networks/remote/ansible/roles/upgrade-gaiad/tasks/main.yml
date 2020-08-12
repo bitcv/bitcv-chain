@@ -1,0 +1,29 @@
+---
+
+- name: Copy binary
+  copy:
+    src: "{{BINARY}}"
+    dest: /usr/bin/bacd
+    mode: 0755
+  notify: restart bacd
+
+- name: Copy new genesis.json file, if available
+  when: "GENESISFILE is defined and GENESISFILE != ''" 
+  copy:
+    src: "{{GENESISFILE}}"
+    dest: /home/bacd/.bacd/config/genesis.json
+  notify: restart bacd
+
+- name: Download genesis.json URL, if available
+  when: "GENESISURL is defined and GENESISURL != ''"
+  get_url:
+    url: "{{GENESISURL}}"
+    dest: /home/bacd/.bacd/config/genesis.json
+    force: yes
+  notify: restart bacd
+
+- name: Reset network
+  when: UNSAFE_RESET_ALL | default(false) | bool
+  command: "sudo -u bacd bacd unsafe-reset-all"
+  notify: restart bacd
+

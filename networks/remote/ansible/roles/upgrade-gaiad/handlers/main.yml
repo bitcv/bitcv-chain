@@ -1,0 +1,5 @@
+---
+
+- name: restart bacd
+  service: name=bacd state=restarted
+

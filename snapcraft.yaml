@@ -1,0 +1,46 @@
+name: bac
+version: git
+summary: Bac Daemon # 79 char long summary
+description: |
+  This snap provides the Bac daemon bacd and the command line
+  tool baccli.
+grade: stable
+confinement: strict
+
+apps:
+    bacd:
+        command: bin/bacd
+        plugs: [home,network,network-bind]
+    baccli:
+        command: bin/baccli
+        plugs: [home,network,network-bind,raw-usb]
+
+parts:
+  bac:
+    plugin: dump
+    source: ./
+    override-pull: |
+        rootdir=$(pwd)
+        gitroot=$(git rev-parse --show-toplevel)
+        cd ${gitroot} && git archive \
+            -o ${rootdir}/bac-git.tar.gz \
+            --format tar.gz -9 --prefix bac-git/ HEAD
+        cd ${rootdir}
+        tar xf bac-git.tar.gz ; rm -f bac-git.tar.gz
+        mkdir -p go/src/github.com/bacd bin
+        mv bac-git/ go/src/github.com/bitcv-chain/bitcv-chain/
+
+    build-snaps: [go]
+    override-build: |
+        base=`pwd`
+        export GO111MODULE=on
+        export GOPATH=`pwd`/go
+        export GOBIN=$GOPATH/bin
+        export PATH=$GOBIN:$PATH
+        cd $GOPATH/src/github.com/bitcv-chain/bitcv-chain
+        make go-mod-cache
+        make tools
+        make install
+        mkdir $SNAPCRAFT_PART_INSTALL/bin
+        cp $GOPATH/bin/bacd $SNAPCRAFT_PART_INSTALL/bin
+        cp $GOPATH/bin/baccli $SNAPCRAFT_PART_INSTALL/bin

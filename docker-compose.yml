@@ -1,0 +1,68 @@
+version: '3'
+
+services:
+  bacdnode0:
+    container_name: bacdnode0
+    image: "tendermint/bacdnode"
+    ports:
+      - "26656-26657:26656-26657"
+    environment:
+      - ID=0
+      - LOG=${LOG:-bacd.log}
+    volumes:
+      - ./build:/bacd:Z
+    networks:
+      localnet:
+        ipv4_address: 192.168.10.2
+
+  bacdnode1:
+    container_name: bacdnode1
+    image: "tendermint/bacdnode"
+    ports:
+      - "26659-26660:26656-26657"
+    environment:
+      - ID=1
+      - LOG=${LOG:-bacd.log}
+    volumes:
+      - ./build:/bacd:Z
+    networks:
+      localnet:
+        ipv4_address: 192.168.10.3
+
+  bacdnode2:
+    container_name: bacdnode2
+    image: "tendermint/bacdnode"
+    environment:
+      - ID=2
+      - LOG=${LOG:-bacd.log}
+    ports:
+      - "26661-26662:26656-26657"
+    volumes:
+      - ./build:/bacd:Z
+    networks:
+      localnet:
+        ipv4_address: 192.168.10.4
+
+  bacdnode3:
+    container_name: bacdnode3
+    image: "tendermint/bacdnode"
+    environment:
+      - ID=3
+      - LOG=${LOG:-bacd.log}
+    ports:
+      - "26663-26664:26656-26657"
+    volumes:
+      - ./build:/bacd:Z
+    networks:
+      localnet:
+        ipv4_address: 192.168.10.5
+
+networks:
+  localnet:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+      -
+        subnet: 192.168.10.0/16
+

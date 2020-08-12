@@ -1,0 +1,6 @@
+=== RUN   TestInitGenesisLargeValidatorSet
+101
+100
+--- PASS: TestInitGenesisLargeValidatorSet (0.03s)
+PASS
+ok  	github.com/bitcv-chain/bitcv-chain/x/staking	0.077s
