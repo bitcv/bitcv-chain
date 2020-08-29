@@ -26,7 +26,9 @@ docker build -f Dockerfile_baccli  .  -t baccli:1.0
 ./run_init.sh
 
 #运行bacd节点
-docker run -it   -p26657:26657   -v  ~/.bacd:/root/.bacd     bacd:1.0  bacd start
+
+docker run -it --name bacchain_bacd  -p26657:26657   -v  ~/.bacd:/root/.bacd     bacd:1.0  bacd start
 
 #运行baccli
-docker run -it   -p1317:1317   -v   ~/.baccli:/root/.baccli  baccli:1.0   baccli    rest-server --node={$local_ip}:26657 --chain-id=bacchain-mainnet-1.0 --laddr=tcp://0.0.0.0:1317
+
+docker run -it  --name bacchain_bacli -p1317:1317   -v   ~/.baccli:/root/.baccli  baccli:1.0   baccli    rest-server --node={$dockder0_ip}:26657 --chain-id=bacchain-mainnet-1.0 --laddr=tcp://0.0.0.0:1317
