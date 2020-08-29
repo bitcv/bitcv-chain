@@ -1,0 +1,3 @@
+chain-id = "bacchain-mainnet-1.0"
+node = "tcp://127.0.0.1:26657"
+trust-node = true

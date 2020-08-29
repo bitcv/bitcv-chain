@@ -72,6 +72,12 @@ install: go.sum check-ledger
 	go install -mod=readonly $(BUILD_FLAGS) ./cmd/bacd
 	go install -mod=readonly $(BUILD_FLAGS) ./cmd/baccli
 
+install_bacd: go.sum check-ledger
+	go install -mod=readonly $(BUILD_FLAGS) ./cmd/bacd
+
+install_baccli: go.sum check-ledger
+	go install -mod=readonly $(BUILD_FLAGS) ./cmd/baccli
+
 install-debug: go.sum
 	go install -mod=readonly $(BUILD_FLAGS) ./cmd/bacdebug
 

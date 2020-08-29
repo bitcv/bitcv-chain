@@ -1,0 +1,19 @@
+FROM golang:alpine AS build-env
+MAINTAINER  liuhaoyang liuhaoyang@bitcv.com
+
+# 依赖
+ENV PACKAGES curl make git
+
+# 工作目录
+WORKDIR /go/src/github.com/bitcv/bitcv-chain
+
+COPY . .
+RUN apk add --no-cache $PACKAGES && make install_baccli
+
+FROM alpine:edge
+
+COPY --from=build-env /go/bin/baccli /usr/bin/baccli
+
+EXPOSE 1317
+
+CMD ["baccli"]
