@@ -8,12 +8,14 @@ ENV PACKAGES curl make git
 WORKDIR /go/src/github.com/bitcv/bitcv-chain
 
 COPY . .
-RUN apk add --no-cache $PACKAGES && make install_bacd
+RUN apk add --no-cache $PACKAGES && make install
 
 FROM alpine:edge
 
 COPY --from=build-env /go/bin/bacd /usr/bin/bacd
+COPY --from=build-env /go/bin/baccli /usr/bin/baccli
 
-EXPOSE 26656
+
+EXPOSE 1317
 
 CMD ["bacd"]
